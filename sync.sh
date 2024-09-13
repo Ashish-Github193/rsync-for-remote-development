@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Define local and remote repository paths
-LOCAL_REPO_PATH="$HOME/Projects/report-automation"
-REMOTE_REPO_PATH="remote:/home/ubuntu/Projects/report-automation"
+LOCAL_REPO_PATH="$HOME/Projects/<project-name>" # Replace this path as needed
+REMOTE_REPO_PATH="remote:/home/ubuntu/Projects/<project-name>" # Replace this path as needed
 DRY="$1"
 
 # Create a temporary exclude file from .gitignore
