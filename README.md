@@ -28,7 +28,7 @@ Before getting started, you'll need to configure the scripts to match your remot
 
 #### Syncing Files
 
-To synchronize your local development files with the remote server, use the `sync.sh` script. This will ensure that your changes are mirrored remotely, allowing for seamless development.
+To synchronize your local development files with the remote server, use the `sync.sh` script. You can manually run the script or run with `boot.sh` to ensure logs are generated.
 
 1. Open your terminal.
 2. Navigate to the project's directory.
@@ -38,21 +38,9 @@ To synchronize your local development files with the remote server, use the `syn
    ```
 4. Follow any on-screen instructions to complete the synchronization.
 
-#### Bootstrapping the Environment
-
-Before you can work remotely, you need to ensure the environment is running. Use the `boot.sh` script to start up any necessary services or applications on the remote server.
-
-1. Open your terminal.
-2. Navigate to the project's directory.
-3. Execute the script:
-   ```
-   ./boot.sh
-   ```
-4. The script will start the environment and ensure everything is ready for development.
-
 #### Killing the Remote Environment
 
-When you're done with development, you might want to stop all running services or processes. The `kill.sh` script is designed for this purpose.
+When you're done with development, you might want to stop the running `sync.sh` process. To do this, use the `kill.sh` script. This will terminate the `rsync.sh` process and ensure that the remote environment is properly shut down.
 
 1. Open your terminal.
 2. Navigate to the project's directory.
@@ -62,9 +50,20 @@ When you're done with development, you might want to stop all running services o
    ```
 4. The script will terminate all running instances related to your remote development environment.
 
+### Behavior and Limitations
+
+The `sync.sh` script is designed to synchronize files between your local machine and the remote server. It uses `rsync` to perform the synchronization, which means that it can handle a wide range of file types and configurations.
+
+However, it's important to note that the synchronization process is not perfect and may encounter some limitations. Here are some things to keep in mind:
+
+- The synchronization process may not well if you want to change the branch on the remote server to perform any changes or deployments. To do this, you'll need to kill the `sync.sh` process using the `kill.sh` script and then go to the remote server and manually update the branch and then perform anything you need to do.
+- The while loop in the `sync.sh` script is designed to ensure that the synchronization process is running continuously. However, if you're experiencing high CPU usage or other issues, you may need to modify the script to sleep for a second or two before executing the next iteration. This will help prevent the synchronization process from running too quickly and potentially causing issues.
+- Any changes made to the remote server will not be reflected in your local environment. Infact the script will detect any changes and will delete from the remote server to ensure synchronization is up to date. But this could be a double edged sword, as it could cause issues if you're not careful.
+- To ensure files that are not supposed to be synchronized, you can add a .gitingore in your project's root directory. This will prevent rsync from synchronizing those files.
+
 ### Troubleshooting
 
-- Ensure that your SSH keys are correctly set up and that the remote server accepts your connection.
+- Ensure that your SSH keys are correctly set up and that the remote server can accept the connection.
 - Verify that `rsync` is correctly installed and accessible in your system's PATH on both your local and remote machines.
 - If a script fails to execute, check its permissions. You might need to make it executable by running `chmod +x script_name.sh`.
 
